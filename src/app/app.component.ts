@@ -31,7 +31,11 @@ export class AppComponent {
         headers.append('Accept', 'application/json');
         let options = new RequestOptions({ headers: headers });
         this.http.post(`${this.apiEndPoint}`, formData, options)
-            .map(res => res.json())
+            .map(function(res) {
+               let resJson = res.json();
+               console.log("response:");
+               console.log(resJson);
+             })
             .catch(error => Observable.throw(error))
             .subscribe(
                 data => console.log('success'),

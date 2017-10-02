@@ -2,9 +2,12 @@ var express    = require('express');        // call express
 var app        = express();                 // define our app using express
 var bodyParser = require('body-parser');
 
+/*
 var MyClass = require("./my_class.js");
-let myClass = new MyClass();
-console.log("got " + myClass.propert);
+let myClass = new MyClass("a", 2);
+console.log(myClass.a);
+*/
+
 
 /*
 var excel2Json = require('node-excel-to-json');
@@ -26,10 +29,12 @@ var xlsx = require('node-xlsx');
 const workSheetsFromBuffer = xlsx.parse(fs.readFileSync(`${__dirname}/myFile.xlsx`));
 */
 // Parse a file
-const workSheetsFromFile = xlsx.parse(`excel/voc_bbc_essai.xlsx`);
+const workSheetsFromFile = xlsx.parse(`excel/clean_list.xlsx`);
+/*
 for(item in workSheetsFromFile[0].data) {
   console.log(workSheetsFromFile[0].data[item]);
 }
+*/
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -62,15 +67,42 @@ router.route('/upload')
       console.log('upload');
     })
     .post(upload.any(), function(req, res) {
-      res.json({message: 'got POST API UPLOAD'});
       console.log('upload post');
       console.log(req.files);
       let filename = req.files[0].filename;
       const workSheetsFromFile2 = xlsx.parse('uploads/'+filename);
+      /*
       for(item in workSheetsFromFile2[0].data) {
         console.log(workSheetsFromFile2[0].data[item]);
       }
+      */
+      console.log('workSheetsFromFile2 ---');
+      console.log(workSheetsFromFile2);
+      var WordTranslator = require("./server/wordTranslator.js");
+      console.log(workSheetsFromFile2[0].data);
+      listWords = workSheetsFromFile2[0].data;
+      let wt = new WordTranslator(listWords);
+      res.json({header: 'got POST API UPLOAD',
+        data: wt.wordNTranslations
+      });
+
     });
+
+/*
+let testList = [
+  ["motA", "wordA1/wordA2"],
+  ["motA", "wordAC"],
+  ["motB", "wordB1, wordB2/wordB3/wordB4"],
+  ["motC", "wordAC"]
+];
+for(let index in wt.wordNTranslations) {
+  let wordNTrans = wt.wordNTranslations[index];
+  console.log(wordNTrans.word);
+  console.log(wordNTrans.list_trans);
+}
+console.log("json ---");
+console.log(wt.wordNTranslations);
+*/
 
 
 // REGISTER OUR ROUTES -------------------------------
@@ -80,4 +112,4 @@ app.use('/api', router);
 // START THE SERVER
 // =============================================================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Server listening on port ' + port);
