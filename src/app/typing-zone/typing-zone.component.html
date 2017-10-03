@@ -1,0 +1,11 @@
+<div class="center">
+
+  <input type="text" (input)="textChanged()" [(ngModel)]="typedText" placeholder="type in english">
+
+  <p>typedText: {{parsedText}}</p>
+
+  <button (click)="textChanged()">
+    click
+  </button>
+
+</div>

@@ -11,8 +11,8 @@ import { Observable } from 'rxjs/Rx';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  title = 'app';
   apiEndPoint:string = 'http://localhost:8080/api/upload/';
 
   constructor(private http: Http) {
