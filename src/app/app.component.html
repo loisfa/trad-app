@@ -1,7 +1,15 @@
 <!--The content below is only a placeholder and can be replaced.-->
-<div>
+<div *ngIf="!fileIsUploaded">
   <p>
-  Upload a file for translation
+    Upload a file for translation
   </p>
   <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".xls, .ods, .xlsx">
+</div>
+<div *ngIf="fileIsUploaded">
+  <p class="inline">
+    word: {{word}}
+  </p>
+  <button class="inline" (click)="nextWord()">
+    Next
+  </button>
 </div>

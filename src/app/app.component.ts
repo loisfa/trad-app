@@ -5,6 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { Observable } from 'rxjs/Rx';
 
+import {Globals} from './global.service';
+
 
 @Component({
   selector: 'app-root',
@@ -14,8 +16,12 @@ import { Observable } from 'rxjs/Rx';
 
 export class AppComponent {
   apiEndPoint:string = 'http://localhost:8080/api/upload/';
+  fileIsUploaded:boolean=false;
+  word:string;
+  wordNTrans;
+  listWordNTrans;
 
-  constructor(private http: Http) {
+  constructor(private http: Http, private globals:Globals) {
 
   }
 
@@ -31,16 +37,30 @@ export class AppComponent {
         headers.append('Accept', 'application/json');
         let options = new RequestOptions({ headers: headers });
         this.http.post(`${this.apiEndPoint}`, formData, options)
-            .map(function(res) {
-               let resJson = res.json();
-               console.log("response:");
-               console.log(resJson);
-             })
+            .map(res => res.json())
             .catch(error => Observable.throw(error))
             .subscribe(
-                data => console.log('success'),
+                data => {
+                  console.log('success');
+                  this.listWordNTrans = data.data;
+                  console.log("response:");
+                  console.log(this.listWordNTrans);
+                  this.fileIsUploaded=true;
+                },
                 error => console.log(error)
             )
         }
+    }
+
+    nextWord():void {
+      this.wordNTrans = this.getRandomWord();
+      this.word = this.wordNTrans.word;
+    }
+
+    getRandomWord():any {
+      if (this.listWordNTrans != undefined) {
+        let randIndex = Math.floor(this.listWordNTrans.length*Math.random());
+        return this.listWordNTrans[randIndex];
+      } else return "ERROR - no list imported yet";
     }
 }

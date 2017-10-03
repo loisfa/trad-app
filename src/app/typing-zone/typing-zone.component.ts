@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable } from 'rxjs/Rx';
+import { AppComponent } from '../app.component';
+import { Globals } from '../global.service';
 
 @Component({
   selector: 'app-typing-zone',
@@ -14,7 +16,8 @@ export class TypingZoneComponent implements OnInit {
   parsedText:string;
   dictCyrillic:Object;
 
-  constructor(private http:Http) {
+  constructor(private http:Http, private globals:Globals) {
+
     console.log("local http request");
     this.http.get("../assets/dict-cyrillic.json")
       .map(res => res.json())
@@ -34,6 +37,8 @@ export class TypingZoneComponent implements OnInit {
   }
 
   textChanged() {
+
+    console.log()
 
     // should be implemented as  a service
     console.log("text changed");
