@@ -36,21 +36,22 @@ export class TypingZoneComponent implements OnInit {
   textChanged() {
 
     // should be implemented as  a service
-    console.log("received key");
-    console.log(this.dictCyrillic);
-    console.log(this.parsedText);
-    console.log(this.typedText);
+    console.log("text changed");
+    let tmpText = this.typedText;
+
     if (this.dictCyrillic != undefined) {
       console.log("multiple letters -------");
       for(let letter in this.dictCyrillic['multipleLetters']) {
-        console.log(letter);
+        var re = new RegExp(letter, 'g');
+        tmpText = tmpText.replace(re, this.dictCyrillic['multipleLetters'][letter]);
       }
       console.log("single letters -------");
       for(let letter in this.dictCyrillic['singleLetters']) {
-        console.log(letter);
+        var re = new RegExp(letter, 'g');
+        tmpText = tmpText.replace(re, this.dictCyrillic['singleLetters'][letter]);
       }
     }
-
+    this.parsedText = tmpText;
 
   }
 
