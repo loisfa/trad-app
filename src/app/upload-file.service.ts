@@ -15,6 +15,7 @@ export class UploadFileService {
       let headers = new Headers();
       headers.append('enctype', 'multipart/form-data');
       headers.append('Accept', 'application/json');
+      headers.append('Access-Control-Allow-Origin', 'http://localhost:8080/api/upload/');
       let options = new RequestOptions({ headers: headers });
       return this.http.post(`${this.apiEndPoint}`, formData, options)
           .map(res => res.json())
