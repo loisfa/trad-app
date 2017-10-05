@@ -16,7 +16,7 @@ export class GameLogicService implements MyObserver {
   }
 
   receiveNotification():void {
-    console.log("in GameLogicService. got notified VocFilesService changed");
+    console.log("GameLogicService got notified VocFilesService changed");
     // Should implement a state machine
     this.updateListWords();
     if (this.listWordNTrans.length<=0) {
@@ -24,10 +24,15 @@ export class GameLogicService implements MyObserver {
     } else if (this.gameHasInit==false) {
       this.startGame();
     }
+    console.log("this.listWordNTrans");
+    console.log(this.listWordNTrans);
   }
   updateListWords():void {
+    console.log("in update list");
+    this.listWordNTrans=[];
     for(let vocFile of this.vocFilesService.vocFileList) {
       if (vocFile.isEnabledForGame==true) {
+        console.log(vocFile.name+" is true");
         for(let wordNTrans of vocFile.wordNTransList) {
           this.listWordNTrans.push(wordNTrans);
         }
@@ -49,7 +54,8 @@ export class GameLogicService implements MyObserver {
       this.wordNTrans = this.listWordNTrans[randomIndex];
       return this.wordNTrans;
     } else {
-      return new WordNTrans("No Word/List selected", []);
+      this.wordNTrans = new WordNTrans("no list selected !", []);
+      return this.wordNTrans;
     }
 
   }

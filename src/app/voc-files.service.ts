@@ -77,6 +77,13 @@ export class VocFilesService implements MyObservable {
       this.notifyObservers();
     }
 
+    switchFileState(vocFile:VocFile):void {
+      if (vocFile.isEnabledForGame==true) {
+        this.disableFile(vocFile);
+      } else {
+        this.enableFile(vocFile);
+      }
+    }
     enableFile(vocFile:VocFile):void {
       vocFile.enable();
       this.notifyObservers();

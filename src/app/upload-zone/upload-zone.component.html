@@ -9,13 +9,14 @@
   </div>
   <!-- FILES DISPLAYED -->
   <div>
-    <ul *ngFor="let vocFile of vocFileList">
+    <ul style="margin:0px; padding-left:10px;" *ngFor="let vocFile of vocFileList">
       <div>
-        <input type="checkbox"/>
-        <div class="inline">
+        <label><input type="checkbox" checked
+          (click)="switchFileState(vocFile)"/>
           {{vocFile.name}}
-        </div>
-        <button class="inline" (click)="removeFile(vocFile)">
+        </label>
+        <button class="btn btn-danger inline"
+        style="width:20px; height:20px; margin:0px; padding:0px;" (click)="removeFile(vocFile)">
           X
         </button>
       </div>

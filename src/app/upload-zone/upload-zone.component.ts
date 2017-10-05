@@ -35,5 +35,8 @@ export class UploadZoneComponent implements OnInit, MyObserver {
     this.vocFilesService.deleteFile(vocFile);
   }
 
+  switchFileState(vocFile:VocFile) {
+    this.vocFilesService.switchFileState(vocFile);
+  }
 
 }
