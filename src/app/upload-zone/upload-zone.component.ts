@@ -8,12 +8,14 @@ import { VocFilesService } from '../voc-files.service';
 })
 export class UploadZoneComponent implements OnInit {
 
+
   constructor(private vocFilesService:VocFilesService) { }
 
   ngOnInit() {
   }
 
   fileChange(event) {
+    console.log("launched upload");
     let fileList: FileList = event.target.files;
     this.vocFilesService.uploadFiles(fileList);
   }

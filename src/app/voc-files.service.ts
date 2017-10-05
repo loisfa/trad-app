@@ -32,24 +32,37 @@ export class VocFilesService implements MyObservable {
 
     uploadFiles(filelist:FileList):void {
       for (let index in filelist) {
-        this.uploadSingleFile(filelist[index]);
+        let file=filelist[index];
+        if (file instanceof File) {
+          if (this.vocFileAlreadyUploaded(file)==false) {
+            this.uploadSingleFile(file);
+          }
+        }
       };
     }
     uploadSingleFile(file:File):void {
-      if (file instanceof File) {
-        this.uploadFileService.uploadFile(file)
-          .subscribe(
-              data => {
-                console.log('success');
-                let vocFile = new VocFile(file.name, data.data);
-                this.addFileToList(vocFile);
-              },
-              error => {
-                console.log(error)
-              }
-          );
+      this.uploadFileService.uploadFile(file)
+        .subscribe(
+            data => {
+              console.log('success');
+              let vocFile = new VocFile(file.name, data.data);
+              this.addFileToList(vocFile);
+            },
+            error => {
+              console.log(error)
+            }
+        );
+    }
+    vocFileAlreadyUploaded(fileToUpload:File):boolean {
+      for (let vocFile of this.vocFileList) {
+        if (fileToUpload.name === vocFile.filename) {
+          console.log("file already uploaded !"
+            +" Change the file name if the file is different from the previous '"
+            +vocFile.filename+"'");
+          return true;
+        }
       }
-
+      return false;
     }
 
     addFileToList(vocFile:VocFile):void {
