@@ -68,7 +68,9 @@ router.route('/upload')
     })
     .post(upload.any(), function(req, res) {
       console.log('upload post');
+      console.log("req.files");
       console.log(req.files);
+
       let filename = req.files[0].filename;
       const workSheetsFromFile2 = xlsx.parse('uploads/'+filename);
       /*
@@ -76,10 +78,7 @@ router.route('/upload')
         console.log(workSheetsFromFile2[0].data[item]);
       }
       */
-      console.log('workSheetsFromFile2 ---');
-      console.log(workSheetsFromFile2);
       var WordTranslator = require("./server/wordTranslator.js");
-      console.log(workSheetsFromFile2[0].data);
       listWords = workSheetsFromFile2[0].data;
       let wt = new WordTranslator(listWords);
       res.json({header: 'got POST API UPLOAD',

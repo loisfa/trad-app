@@ -3,61 +3,30 @@ import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {Observable } from 'rxjs/Rx';
 import { AppComponent } from '../app.component';
-import { Globals } from '../global.service';
+import { ParserService } from '../parser.service';
 
 @Component({
   selector: 'app-typing-zone',
   templateUrl: './typing-zone.component.html',
-  styleUrls: ['./typing-zone.component.css']
+  styleUrls: ['./typing-zone.component.css'],
+  providers: [ParserService]
 })
 export class TypingZoneComponent implements OnInit {
 
-  typedText:string = "";
-  parsedText:string;
-  dictCyrillic:Object;
+  typedText:string="";
+  parsedText:string="";
 
-  constructor(private http:Http, private globals:Globals) {
+  constructor(private http:Http, private parserService:ParserService) {}
 
-    console.log("local http request");
-    this.http.get("../assets/dict-cyrillic.json")
-      .map(res => res.json())
-      .catch(error => Observable.throw(error))
-      .subscribe(
-          data => {
-            console.log('success');
-            this.dictCyrillic = data;
-          },
-          error => console.log(error)
-      );
-  }
+  ngOnInit() {}
 
-  ngOnInit() {
+  textChanged():void {
     // should be implemented as  a service
-
-  }
-
-  textChanged() {
-
-    console.log()
-
-    // should be implemented as  a service
-    console.log("text changed");
-    let tmpText = this.typedText;
-
-    if (this.dictCyrillic != undefined) {
-      console.log("multiple letters -------");
-      for(let letter in this.dictCyrillic['multipleLetters']) {
-        var re = new RegExp(letter, 'g');
-        tmpText = tmpText.replace(re, this.dictCyrillic['multipleLetters'][letter]);
-      }
-      console.log("single letters -------");
-      for(let letter in this.dictCyrillic['singleLetters']) {
-        var re = new RegExp(letter, 'g');
-        tmpText = tmpText.replace(re, this.dictCyrillic['singleLetters'][letter]);
-      }
+    if (this.parserService.isInit==true) {
+      this.parsedText = this.parserService.parseText(this.typedText);
+    } else {
+      console.log("parser not initialized yet");
     }
-    this.parsedText = tmpText;
-
   }
 
 }

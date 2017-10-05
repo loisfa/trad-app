@@ -1,0 +1,20 @@
+<div> <!-- *ngIf="!fileIsUploaded" -->
+  <div>
+    <h5 class="inline">
+      Upload your vocabulary lists
+    </h5>
+    <h6 class="inline" style="color:gray;">
+      (.xlsx)
+    </h6>
+  </div>
+  <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".xlsx" multiple>
+</div>
+
+<div> <!--  *ngIf="fileIsUploaded" -->
+  <p class="inline">
+    word: {{word}}
+  </p>
+  <button class="inline" (click)="nextWord()">
+    Next
+  </button>
+</div>

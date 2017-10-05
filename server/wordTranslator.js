@@ -27,20 +27,12 @@ class WordTranslator {
             transList.push(chunck);
           }
         }
-        console.log('word: '+line[0]);
-        console.log('trans: '+transList);
         let wt = new WordNTrans(line[0], transList);
         this.wordNTranslations.push(wt);
       }
     }
-  }
+  } 
 
-  // useless function ? front function ?
-  getRandomWord() {
-    let randIndex = Math.floor(this.wordNTranslations.length*Math.random());
-    console.log(randIndex);
-    return this.wordNTranslations[randIndex];
-  }
 };
 
 module.exports = WordTranslator;

@@ -1,7 +1,11 @@
 <div class="center">
 
-  <input type="text" (input)="textChanged()" [(ngModel)]="typedText" placeholder="type in english">
+  <h4>
+    {{parsedText}}
+    <br *ngIf="parsedText==''||' '">
+  </h4>
 
-  <h4>{{parsedText}}</h4>
+
+  <input class="center" type="text" (input)="textChanged()" [(ngModel)]="typedText" placeholder="type here">
 
 </div>

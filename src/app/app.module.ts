@@ -5,12 +5,13 @@ import { HttpModule } from '@angular/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { AppComponent } from './app.component';
 import { TypingZoneComponent } from './typing-zone/typing-zone.component';
-import { Globals } from './global.service'; 
+import { UploadZoneComponent } from './upload-zone/upload-zone.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    TypingZoneComponent
+    TypingZoneComponent,
+    UploadZoneComponent
   ],
   imports: [
     BrowserModule,
@@ -18,7 +19,7 @@ import { Globals } from './global.service';
     NgbModule.forRoot(),
     FormsModule
   ],
-  providers: [Globals],
+  providers: [],
   bootstrap: [AppComponent, TypingZoneComponent]
 })
 export class AppModule { }
