@@ -7,14 +7,19 @@
       (.xlsx)
     </h6>
   </div>
+  <!-- FILES DISPLAYED -->
+  <div>
+    <ul *ngFor="let vocFile of vocFileList">
+      <li>
+        <div class="inline">
+          {{vocFile.name}}
+        </div>
+        <button class="inline" (click)="removeFile(vocFile)">
+          X
+        </button>
+      </li>
+    </ul>
+  </div>
+  <!-- FILE INPUT BAR -->
   <input type="file" (change)="fileChange($event)" placeholder="Upload file" accept=".xlsx" multiple/>
-</div>
-
-<div> <!--  *ngIf="fileIsUploaded" -->
-  <p class="inline">
-    word: {{word}}
-  </p>
-  <button class="inline" (click)="nextWord()">
-    Next
-  </button>
 </div>

@@ -20,6 +20,6 @@ import { UploadZoneComponent } from './upload-zone/upload-zone.component';
     FormsModule
   ],
   providers: [],
-  bootstrap: [AppComponent, TypingZoneComponent]
+  bootstrap: [AppComponent]
 })
 export class AppModule { }

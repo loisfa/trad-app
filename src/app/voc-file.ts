@@ -4,7 +4,7 @@ export class VocFile {
 
     isEnabledForGame:boolean=true;
 
-    constructor(public filename:string, public wordNTransList:Array<WordNTrans>) {}
+    constructor(public name:string, public wordNTransList:Array<WordNTrans>) {}
 
     enable():void {
       this.isEnabledForGame=true;

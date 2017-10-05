@@ -1,10 +1,19 @@
 <div class="center">
 
+  <div *ngIf="gameLogicService.gameHasInit==true">
+    <p class="inline">
+      word: {{gameLogicService.wordNTrans.word}}
+    </p>
+    <button class="inline" (click)="nextWord()">
+      Next
+    </button>
+  </div>
+
+
   <h4>
     {{parsedText}}
     <br *ngIf="parsedText==''||' '">
   </h4>
-
 
   <input class="center" type="text" (input)="textChanged()" [(ngModel)]="typedText" placeholder="type here">
 

@@ -25,7 +25,6 @@ export class VocFilesService implements MyObservable {
     }
     notifyObservers():void {
       for (let observer of this.listObservers) {
-        console.log(observer);
         observer.receiveNotification();
       }
     }
@@ -55,10 +54,10 @@ export class VocFilesService implements MyObservable {
     }
     vocFileAlreadyUploaded(fileToUpload:File):boolean {
       for (let vocFile of this.vocFileList) {
-        if (fileToUpload.name === vocFile.filename) {
+        if (fileToUpload.name === vocFile.name) {
           console.log("file already uploaded !"
             +" Change the file name if the file is different from the previous '"
-            +vocFile.filename+"'");
+            +vocFile.name+"'");
           return true;
         }
       }
