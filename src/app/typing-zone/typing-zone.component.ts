@@ -6,7 +6,6 @@ import { AppComponent } from '../app.component';
 import { ParserService } from '../parser.service';
 import { GameLogicService } from '../game-logic.service';
 import { WordNTrans } from '../word-n-trans';
-import { MyObserver } from '../interface-observer';
 
 @Component({
   selector: 'app-typing-zone',
@@ -14,7 +13,7 @@ import { MyObserver } from '../interface-observer';
   styleUrls: ['./typing-zone.component.css'],
   providers: [ParserService]
 })
-export class TypingZoneComponent implements OnInit, MyObserver {
+export class TypingZoneComponent implements OnInit {
 
   typedText:string="";
   parsedText:string="";
@@ -33,8 +32,10 @@ export class TypingZoneComponent implements OnInit, MyObserver {
     if (this.parserService.isInit==true) {
       this.parsedText=this.parserService.parseText(this.typedText);
       if (this.gameLogicService.gameHasInit==true) {
-        this.gameLogicService.checkIfEqual(this.parsedText,
-          this.gameLogicService.wordNTrans); // !!! should remove this second argument
+        if (this.gameLogicService.checkIfEqual(this.parsedText)) {
+          this.typedText="";
+          // + TODO paint the parsedTextin green
+        }
         //this.wordNTrans=this.gameLogicService.wordNTrans;
       }
     } else {
@@ -42,15 +43,7 @@ export class TypingZoneComponent implements OnInit, MyObserver {
     }
   }
 
-  receiveNotification() {
-    // from game Logic
-    // means the game has started
-    console.log("TypingZoneComponent got notification to start the game");
-    this.nextWord();
-  }
-
-
-  nextWord():void {
+  nextWord() {
     this.gameLogicService.getNextWord();
   }
 

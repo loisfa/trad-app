@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { VocFilesService } from './voc-files.service';
 import { MyObserver } from './interface-observer';
-import { MyObservable } from './interface-observable';
 import { WordNTrans } from './word-n-trans';
 
 @Injectable()
-export class GameLogicService implements MyObserver, MyObservable {
+export class GameLogicService implements MyObserver {
 
   wordNTrans:WordNTrans=undefined;
   listWordNTrans:Array<WordNTrans>=[];
@@ -16,22 +15,6 @@ export class GameLogicService implements MyObserver, MyObservable {
     vocFilesService.addObserver(this);
   }
 
-
-  addObserver(observer:any) {
-    this.observersStartGameList.push(observer);
-  }
-  removeObserver(observerToRemove:any) {
-    for(let index in this.observersStartGameList) {
-      if (this.observersStartGameList[index] === observerToRemove) {
-        this.observersStartGameList.splice(Number(index), 1);
-      }
-    }
-  }
-  notifyObservers() {
-    for(let observer of this.observersStartGameList) {
-      observer.receiveNotification();
-    }
-  }
   receiveNotification():void {
     console.log("in GameLogicService. got notified VocFilesService changed");
     // Should implement a state machine
@@ -42,7 +25,6 @@ export class GameLogicService implements MyObserver, MyObservable {
       this.startGame();
     }
   }
-
   updateListWords():void {
     for(let vocFile of this.vocFilesService.vocFileList) {
       if (vocFile.isEnabledForGame==true) {
@@ -57,19 +39,23 @@ export class GameLogicService implements MyObserver, MyObservable {
     console.log("start the game");
     this.wordNTrans = this.getNextWord();
     this.gameHasInit=true;
-    this.notifyObservers();
   }
   getNextWord():WordNTrans {
     console.log("get next word");
     let length = this.listWordNTrans.length;
-    // equiprobability model
-    let randomIndex = Math.floor(Math.random()*length);
-    this.wordNTrans = this.listWordNTrans[randomIndex];
-    return this.wordNTrans;
+    if (length>0) {
+      // equiprobability model
+      let randomIndex = Math.floor(Math.random()*length);
+      this.wordNTrans = this.listWordNTrans[randomIndex];
+      return this.wordNTrans;
+    } else {
+      return new WordNTrans("No Word/List selected", []);
+    }
+
   }
-  checkIfEqual(parsedWord:string, wordNTrans:WordNTrans):boolean {
+  checkIfEqual(parsedWord:string):boolean {
     console.log("in check if equal - wordNTrans:");
-    console.log(wordNTrans);
+    console.log(this.wordNTrans);
     // easy mode : forget about 'ъ' and 'ь'
     let re = new RegExp('ъ', 'g');
     parsedWord = parsedWord.replace(re, '');
@@ -80,7 +66,7 @@ export class GameLogicService implements MyObserver, MyObservable {
     parsedWord = parsedWord.replace(re, '');
 
     console.log("parsedWord: "+parsedWord.toLowerCase());
-    for (let trans of wordNTrans.transList) {
+    for (let trans of this.wordNTrans.transList) {
       trans = trans.replace(re, '');
       console.log("trans.toLowerCase: "+trans.toLowerCase());
       if (parsedWord.toLowerCase() === trans.toLowerCase()) {

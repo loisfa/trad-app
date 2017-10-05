@@ -1,11 +1,12 @@
 <div class="center">
 
   <div *ngIf="gameLogicService.gameHasInit==true">
-    <p class="inline">
-      word: {{gameLogicService.wordNTrans.word}}
-    </p>
-    <button class="inline" (click)="nextWord()">
-      Next
+    <h5 class="inline">
+      {{gameLogicService.wordNTrans.word}}
+    </h5>
+    <label class="inline" style="width:0px;"></label>
+    <button class="btn-primary inline" (click)="nextWord()">
+      >
     </button>
   </div>
 

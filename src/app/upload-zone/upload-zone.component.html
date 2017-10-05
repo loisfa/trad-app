@@ -10,14 +10,15 @@
   <!-- FILES DISPLAYED -->
   <div>
     <ul *ngFor="let vocFile of vocFileList">
-      <li>
+      <div>
+        <input type="checkbox"/>
         <div class="inline">
           {{vocFile.name}}
         </div>
         <button class="inline" (click)="removeFile(vocFile)">
           X
         </button>
-      </li>
+      </div>
     </ul>
   </div>
   <!-- FILE INPUT BAR -->
