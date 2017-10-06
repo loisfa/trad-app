@@ -21,7 +21,7 @@ export class TypingZoneComponent implements OnInit {
 
   constructor(private http:Http,
     private parserService:ParserService,
-    private gameLogicService:GameLogicService) {
+    public gameLogicService:GameLogicService) {
       //this.gameLogicService.addObserver(this);
     }
 

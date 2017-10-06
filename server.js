@@ -4,6 +4,7 @@ var bodyParser = require('body-parser');
 var cors       = require('cors')
 var xlsx       = require('node-xlsx');
 var WordTranslator = require("./server/wordTranslator.js");
+var path       = require('path');
 
 // configure app to use bodyParser()
 // this will let us get the data from a POST
@@ -24,7 +25,7 @@ var corsOptions = {
   origin: 'http://localhost:4200',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
-app.use(cors())
+//app.use(cors());
 app.use('/api/upload', function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "http://localhost:4200");
   res.setHeader('Access-Control-Allow-Methods', 'POST,GET,OPTIONS,PUT,DELETE');
@@ -32,6 +33,15 @@ app.use('/api/upload', function(req, res, next) {
   next();
 });
 app.use('/api', router);
+
+// Point static path to dist
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Catch all other routes and return the index file
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist/index.html'));
+});
+
 
 router.route('/upload')
     .post(upload.any(), function(req, res) {

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Rx';
 
 @Injectable()
 export class UploadFileService {
-    apiEndPoint:string='http://localhost:8080/api/upload/';
+    apiEndPoint:string='/api/upload/';
 
     constructor(private http:Http) {}
 
@@ -15,7 +15,7 @@ export class UploadFileService {
       let headers = new Headers();
       headers.append('enctype', 'multipart/form-data');
       headers.append('Accept', 'application/json');
-      headers.append('Access-Control-Allow-Origin', 'http://localhost:8080/api/upload/');
+      headers.append('Access-Control-Allow-Origin', '/api/upload/');
       let options = new RequestOptions({ headers: headers });
       return this.http.post(`${this.apiEndPoint}`, formData, options)
           .map(res => res.json())
