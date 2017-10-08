@@ -37,6 +37,11 @@ app.use('/api', router);
 // Point static path to dist
 app.use(express.static(path.join(__dirname, 'dist')));
 
+app.get('/robots.txt', function (req, res) {
+    res.type('text/plain');
+    res.send("User-agent: *\nDisallow: /");
+});
+
 // Catch all other routes and return the index file
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist/index.html'));
